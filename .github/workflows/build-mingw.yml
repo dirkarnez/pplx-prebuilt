@@ -39,19 +39,22 @@ jobs:
       - name: set PATH, check mingw version, cmake generate, build and install
         shell: cmd
         run: |
-            set PATH=^
-            ${{ github.workspace }}\mingw64;^
-            ${{ github.workspace }}\mingw64\bin;^
-            ${{ github.workspace }}\PortableGit-2.38.1-64-bit\bin;^
-            ${{ github.workspace }}\cmake-3.24.0-windows-x86_64\bin;^
-            gcc --version &&^
-            cd pplx &&^
-            cmake.exe -G "MinGW Makefiles" ^
-            -DCMAKE_BUILD_TYPE=Release ^
-            -Dpplx_as_shared=OFF ^
-            -DBOOST_ROOT="%WORKSPACE_LINUX%/boost-v1.80.0-x86_64-posix-seh-rev0-8.1.0" ^
-            -DCMAKE_INSTALL_PREFIX="cmake-build/${{ env.cmakeInstallationPath }}" -B./cmake-build &&^
-            cd cmake-build && cmake --build . && cmake --install . 
+          set WORKSPACE=%~dp0
+          set WORKSPACE_LINUX=%WORKSPACE:\=/%
+          echo %WORKSPACE_LINUX%
+          set PATH=^
+          ${{ github.workspace }}\mingw64;^
+          ${{ github.workspace }}\mingw64\bin;^
+          ${{ github.workspace }}\PortableGit-2.38.1-64-bit\bin;^
+          ${{ github.workspace }}\cmake-3.24.0-windows-x86_64\bin;
+          gcc --version &&^
+          cd pplx &&^
+          cmake.exe -G "MinGW Makefiles" ^
+          -DCMAKE_BUILD_TYPE=Release ^
+          -Dpplx_as_shared=OFF ^
+          -DBOOST_ROOT="%WORKSPACE_LINUX%/boost-v1.80.0-x86_64-posix-seh-rev0-8.1.0" ^
+          -DCMAKE_INSTALL_PREFIX="cmake-build/${{ env.cmakeInstallationPath }}" -B./cmake-build &&^
+          cd cmake-build && cmake --build . && cmake --install . 
             
       - name: Archive Release
         uses: thedoctor0/zip-release@master
