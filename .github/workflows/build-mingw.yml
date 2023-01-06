@@ -39,8 +39,7 @@ jobs:
       - name: set PATH, check mingw version, cmake generate, build and install
         shell: cmd
         run: |
-          set WORKSPACE=%~dp0
-          set WORKSPACE_LINUX=%WORKSPACE:\=/%
+          set WORKSPACE_LINUX=%CD:\=/%
           echo %WORKSPACE_LINUX%
           set PATH=^
           ${{ github.workspace }}\mingw64;^
